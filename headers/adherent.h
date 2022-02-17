@@ -2,7 +2,7 @@
 
 #define H_ADHERENT_H
 
-void showOwnerMenuAdherent();
+void showMenuAdherent();
 
 void addAdherent();
 void showAdherents();

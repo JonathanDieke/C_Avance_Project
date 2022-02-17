@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "adherent.h": "c",
+        "global.h": "c",
+        "mysql.h": "c"
+    }
+}
