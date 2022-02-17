@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "../headers/global.h"
 #include "../headers/adherent.h"
+#include "../headers/book.h"
 
 MYSQL *connexion = NULL; 
 
@@ -31,7 +32,7 @@ void showMainMenu(){
                 break;
             case 2:
                 system("clear");
-                // inserer le module 
+                showMenuBook();
                 break;
             case 3:
                 // inserer le module 
