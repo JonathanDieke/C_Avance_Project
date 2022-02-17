@@ -17,8 +17,9 @@ void showMainMenu(){
         puts("\t\t BIENVENUE !!! ");  
         puts("MENU PRINCIPAL"); 
         puts("1- ADHERENTS ");
-        puts("2- LIVRES ");
+        puts("2- LIVRES "); 
         puts("3- EMPRUNTS ");
+        puts("4- Quitter ");
 
         printf("CHOISIR UNE OPTION : "); 
         scanf("%d", &choice);
@@ -35,12 +36,16 @@ void showMainMenu(){
             case 3:
                 // inserer le module 
                 break;
-            
+            case 4:
+                system("clear");
+                puts("Bye ! ");
+                exit(0);
+                break;            
             default:
                 system("clear");
                 puts("Veuillez faire un choix entre 1 ET 3\n");
                 break;
         }
-    } while (choice < 1 || choice > 3);
+    } while (choice < 1 || choice > 4);
     
 }

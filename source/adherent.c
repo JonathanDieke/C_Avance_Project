@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <time.h>
 #include "../headers/adherent.h"
 #include "../headers/global.h"
@@ -90,18 +91,53 @@ void addAdherent(/*MYSQL *connexion*/){
         puts("\n\t--- Ajout réussi ! ---\n");
 
     }else{
-        puts("\n\t---Echec de l'ajout, veuillez réessayer ! ---\n");
+        puts("\n\t--- Echec de l'ajout, veuillez réessayer ! ---\n");
     }
 
     showMenuAdherent();
-
 }
 
 void showAdherents(){
 
-    
+    char* query  ="select * from adherents";
 
-    showMenuAdherent();
+    if(mysql_query(connexion, query) != 0){
+        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
+        showMenuAdherent();
+    }
+
+    MYSQL_RES* results = mysql_store_result(connexion);
+
+    if(results != NULL){
+
+        MYSQL_ROW row ;
+        MYSQL_FIELD* fields ;
+
+        puts("\nListe exhaustive des ahérents : \n ");
+        puts(" -------------------------------------------------------------------");
+        puts("| Id \t| Nom \t| Prénom\t| Adresse\t| Date de naissance |");
+        puts(" -------------------------------------------------------------------");  
+
+        while( (row = mysql_fetch_row(results)) != NULL ) {
+            // fields = mysql_fetch_field(results); 
+            printf("|");
+            for(int i = 0; i < 5; i++){
+                printf(" %s \t", row[i]);
+            }
+            printf("|");
+            puts("");
+        }
+
+        sleep(5);
+        system("clear");
+        showMenuAdherent();
+
+    }else{
+        system("clear");
+        puts("\n\t--- Aucune donnée trouvée ! --- \n");
+        sleep(3);
+        showMenuAdherent();
+    }
 }
 
 void showAdherent(){
