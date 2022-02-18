@@ -57,13 +57,11 @@ void showMenuAdherent(/*MYSQL* connexion*/){
                 break;    
             default:
                 system("clear");
-                puts("Veuillez faire un choix entre 1 et 6.\n");
+                puts("Veuillez faire un choix entre 1 et 7.\n");
                 break;
         }
     
     }while(choice < 1 || choice > 7) ;
-
-
 }
 
 void addAdherent(/*MYSQL *connexion*/){ 
@@ -102,6 +100,7 @@ void showAdherents(){
     char* query  ="select * from adherents";
 
     if(mysql_query(connexion, query) != 0){
+        system("clear");
         puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
         showMenuAdherent();
     }
@@ -114,17 +113,16 @@ void showAdherents(){
         MYSQL_FIELD* fields ;
 
         puts("\nListe exhaustive des ahérents : \n ");
-        puts(" -------------------------------------------------------------------");
-        puts("| Id \t| Nom \t| Prénom\t| Adresse\t| Date de naissance |");
-        puts(" -------------------------------------------------------------------");  
+        puts(" -------------------------------------------------------------------------");
+        puts("|\tId |\tNom |\tPrénom |\tAdresse |\tDate de naissance |");
+        puts(" -------------------------------------------------------------------------");  
 
         while( (row = mysql_fetch_row(results)) != NULL ) {
             // fields = mysql_fetch_field(results); 
             printf("|");
             for(int i = 0; i < 5; i++){
-                printf(" %s \t", row[i]);
-            }
-            printf("|");
+                printf("\t%s |", row[i]);
+            } 
             puts("");
         }
 
@@ -134,7 +132,7 @@ void showAdherents(){
 
     }else{
         system("clear");
-        puts("\n\t--- Aucune donnée trouvée ! --- \n");
+        puts("\n\t--- Impossible de traiter la requête ! --- \n");
         sleep(3);
         showMenuAdherent();
     }
