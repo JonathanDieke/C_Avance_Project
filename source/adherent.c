@@ -91,6 +91,7 @@ void addAdherent(/*MYSQL *connexion*/){
     }else{
         puts("\n\t--- Echec de l'ajout, veuillez réessayer ! ---\n");
     }
+    
 
     showMenuAdherent();
 }

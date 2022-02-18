@@ -131,11 +131,12 @@ void showBooks(){
 
 void showBook(){
     int bookNumber ;
-    
+
     printf("Entrez le numéro du livre : ");
     scanf("%d", &bookNumber);
 
-    char* query  ="select * from books where number ";
+    char query[64];
+    sprintf(query, "select * from books where number = '%d' ;", bookNumber);
     
     if(mysql_query(connexion, query) != 0){
         system("clear");
@@ -150,18 +151,10 @@ void showBook(){
         MYSQL_ROW row ;
         MYSQL_FIELD* fields ;
 
-        puts("\nListe exhaustive des ahérents : \n ");
-        puts(" -----------------------------------------------------------------------");
-        puts("|\tId |\tTitre |\tMots clés |\tDate de parution |\tAutheur |");
-        puts(" -----------------------------------------------------------------------");  
+        printf("\n\t\tLivre n°%d : \n", bookNumber);
 
         while( (row = mysql_fetch_row(results)) != NULL ) {
-            // fields = mysql_fetch_field(results); 
-            printf("|");
-            for(int i = 0; i < 5; i++){
-                printf("\t%s |", row[i]);
-            }
-            puts("");
+            printf("Id : %s \nTitre : %s\nMots clés : %s \nDate de parution : %s \nAutheur : %s\n", row[0],row[1],row[2],row[3],row[4]);
         }
 
         sleep(5);
@@ -184,7 +177,21 @@ void editBook(){
 }
 
 void deleteBook(){
-    puts("delete book");
+    
+    int bookNumber = 0;
 
+    printf("Entrez le numéro du livre : ");
+    scanf("%d", &bookNumber);
+
+    char query[64];
+    sprintf(query, "delete from books where number = '%d' ;", bookNumber);
+    
+    system("clear");
+    if(mysql_query(connexion, query) == 0){
+        puts("\n\t--- Suppression réussie ! --- \n");
+    }else{
+        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
+    }
+    sleep(2);
     showMenuBook();
 }
