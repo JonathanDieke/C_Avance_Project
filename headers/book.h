@@ -14,4 +14,7 @@ void editBook();
 
 void deleteBook();
 
+int _getBookNumber(char* message);
+
+char* lire();
 #endif
