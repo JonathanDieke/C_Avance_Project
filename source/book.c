@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include "../headers/book.h"
 #include <unistd.h>
+#include "../headers/book.h"
 #include "../headers/global.h"
+
 
 void showMenuBook(){
     int choice = 0 ;
@@ -71,7 +72,7 @@ void addBook(){
     int author_number = atoi(lire(50));
 
     char query[256] ;
-    sprintf(query, "insert into books(title, keywords, released_date, author_number) values('%s', '%s', '%s', '%d')", title, keywords, released_date, author_number);
+    sprintf(query, "insert into %s(title, keywords, released_date, author_number) values('%s', '%s', '%s', '%d')", ADHERENT_TABLE_NAME, title, keywords, released_date, author_number);
 
     system("clear");
 
@@ -86,7 +87,8 @@ void addBook(){
 
 void showBooks(){
 
-    char* query  ="select * from books";
+    char query [256];
+    sprintf(query, "select number, title, keywords, released_date, author_number from %s", ADHERENT_TABLE_NAME);
     
     if(mysql_query(connexion, query) != 0){
         system("clear");
@@ -131,7 +133,7 @@ void showBook(){
     int bookNumber = _getBookNumber("Affichage du livre ...") ;
 
     char query[128];
-    sprintf(query, "select number, title, keywords, released_date, author_number from books where number = '%d' ;", bookNumber);
+    sprintf(query, "select number, title, keywords, released_date, author_number from %s where number = '%d' ;", ADHERENT_TABLE_NAME, bookNumber);
     
     if(mysql_query(connexion, query) != 0){
         system("clear");
@@ -169,7 +171,7 @@ void editBook(){
     int bookNumber = _getBookNumber("Edition du livre ...") ;
 
     char query[128] ;
-    sprintf(query, "select title, keywords, released_date, author_number from books where number = %d ;", bookNumber) ;
+    sprintf(query, "select title, keywords, released_date, author_number from %s where number = %d ;", ADHERENT_TABLE_NAME, bookNumber) ;
 
     if(mysql_query(connexion, query) != 0){
         system("clear");
@@ -180,7 +182,7 @@ void editBook(){
     MYSQL_RES* results = mysql_store_result(connexion);
     MYSQL_ROW row ; 
 
-    char title[50], keywords[100], released_date[25], new_released_date[15]; 
+    char title[50], keywords[100], released_date[15];
     int author_number;
 
     if( (row = mysql_fetch_row(results)) != NULL ) {
@@ -192,16 +194,16 @@ void editBook(){
 
         printf("\nEntrez le titre (%s) : ", title);
         getchar();
-        char* new_title = lire(30);
+        char* new_title = lire(50);
 
         printf("\nEntrez les mots clés (%s) : ", keywords);
-        char* new_keywords = lire(30);
+        char* new_keywords = lire(100);
 
         printf("\nEntrez la date de parution (%s) : ", released_date);
         char* new_released_date = lire(15);
 
         printf("\nEntrez le numéro de l'autheur (%d) : ", author_number);
-        int new_author_number = atoi(lire(2));
+        int new_author_number = atoi(lire(5));
  
 
         if(new_title[0] != 0) strcpy(title, new_title);
@@ -210,7 +212,7 @@ void editBook(){
         if(new_author_number != 0) author_number = new_author_number;
 
         char query[300] ;
-        sprintf(query,"update books set title = '%s', keywords = '%s', released_date = '%s', author_number = '%d' where number = %d", title, keywords, released_date, author_number, bookNumber) ;
+        sprintf(query,"update %s set title = '%s', keywords = '%s', released_date = '%s', author_number = '%d' where number = %d", ADHERENT_TABLE_NAME, title, keywords, released_date, author_number, bookNumber) ;
 
         system("clear");
 
@@ -232,7 +234,7 @@ void deleteBook(){
     int bookNumber = _getBookNumber("Suppression du livre ...");
 
     char query[64];
-    sprintf(query, "delete from books where number = '%d' ;", bookNumber);
+    sprintf(query, "delete from %s where number = '%d' ;", ADHERENT_TABLE_NAME, bookNumber);
     
     system("clear");
     if(mysql_query(connexion, query) == 0){
@@ -253,18 +255,4 @@ int _getBookNumber(char* message){
     printf("%s\n\n", message);
 
     return bookNumber ;
-}
-
-char *lire(int size){
-    int i = 0;
-
-    char* text = (char*) malloc(sizeof(char)*size);
-
-    while(i<size){
-        scanf("%c", &text[i]);
-        if(text[i] == '\n') break ;
-        else i++ ;
-    }
-    text[i] = '\0';
-    return text ;
 }

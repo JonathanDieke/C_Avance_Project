@@ -2,7 +2,6 @@
 #include <string.h>
 #include <time.h>
 #include <mysql/mysql.h>
-#include "./headers/adherent.h"
 #include "./headers/global.h"
 
 int main(int argc, int *argv[]){

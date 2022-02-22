@@ -11,4 +11,6 @@ void editAdherent();
 void deleteAdherent();
 void latecomersAdherent();
 
+int _getAdherentNumber(char* message);
+
 #endif

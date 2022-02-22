@@ -1,13 +1,30 @@
 #include <mysql/mysql.h>
 #include <stdio.h>
-#include "../headers/global.h"
+#include "../headers/global.h"  
 #include "../headers/adherent.h"
 #include "../headers/book.h"
 
 MYSQL *connexion = NULL; 
 
+char* BOOK_TABLE_NAME = "books" ;
+char * ADHERENT_TABLE_NAME = "adherents";
+
 void initializeConnexion(){
     connexion = mysql_init(0);
+}
+
+char *lire(int size){
+    int i = 0;
+
+    char* text = (char*) malloc(sizeof(char)*size);
+
+    while(i<size){
+        scanf("%c", &text[i]);
+        if(text[i] == '\n') break ;
+        else i++ ;
+    }
+    text[i] = '\0';
+    return text ;
 }
 
 void showMainMenu(){
