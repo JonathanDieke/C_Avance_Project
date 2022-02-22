@@ -8,7 +8,8 @@
 extern MYSQL *connexion  ;
 
 extern char* BOOK_TABLE_NAME ; 
-extern char * ADHERENT_TABLE_NAME ;
+extern char* ADHERENT_TABLE_NAME ;
+extern char* AUTHOR_TABLE_NAME ;
 
 void initializeConnexion();
 

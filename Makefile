@@ -2,7 +2,6 @@ biblio : global.o adherent.o book.o main.o
 	gcc main.o adherent.o global.o book.o -o biblio -lmysqlclient
 	rm *.o 
 
-
 global.o : source/global.c
 	gcc -c source/global.c -o global.o
 

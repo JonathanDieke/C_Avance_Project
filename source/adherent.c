@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "../headers/adherent.h"
 #include "../headers/global.h"
-
+#include "../headers/adherent.h"
 
 void showMenuAdherent(){
     int choice = 0 ;
@@ -252,10 +251,10 @@ void deleteAdherent(){
 
 void latecomersAdherent(){
 
+    // récupérer tous les emprunts
 
     showMenuAdherent();
 }
-
 
 int _getAdherentNumber(char* message){
     int adherentNumber ;

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "../headers/book.h"
 #include "../headers/global.h"
+#include "../headers/book.h"
 
 
 void showMenuBook(){
@@ -88,7 +88,7 @@ void addBook(){
 void showBooks(){
 
     char query [256];
-    sprintf(query, "select number, title, keywords, released_date, author_number from %s", ADHERENT_TABLE_NAME);
+    sprintf(query, "select b.number, b.title, b.keywords, b.released_date, a.name, a.lname from %s b, %s a where b.author_number = a.number", BOOK_TABLE_NAME, AUTHOR_TABLE_NAME);
     
     if(mysql_query(connexion, query) != 0){
         system("clear");
@@ -109,10 +109,13 @@ void showBooks(){
         puts(" -----------------------------------------------------------------------");  
 
         while( (row = mysql_fetch_row(results)) != NULL ) {
-            // fields = mysql_fetch_field(results); 
             printf("|");
             for(int i = 0; i < 5; i++){
-                printf("\t%s |", row[i]);
+                if(i != 4){
+                    printf("\t%s |", row[i]);
+                }else{
+                    printf("\t%s %s|", row[i], row[i+1]);
+                }
             }
             puts("");
         }
@@ -133,7 +136,7 @@ void showBook(){
     int bookNumber = _getBookNumber("Affichage du livre ...") ;
 
     char query[128];
-    sprintf(query, "select number, title, keywords, released_date, author_number from %s where number = '%d' ;", ADHERENT_TABLE_NAME, bookNumber);
+    sprintf(query, "select number, title, keywords, released_date, author_number from %s where number = '%d' ;", BOOK_TABLE_NAME, bookNumber);
     
     if(mysql_query(connexion, query) != 0){
         system("clear");
@@ -171,7 +174,7 @@ void editBook(){
     int bookNumber = _getBookNumber("Edition du livre ...") ;
 
     char query[128] ;
-    sprintf(query, "select title, keywords, released_date, author_number from %s where number = %d ;", ADHERENT_TABLE_NAME, bookNumber) ;
+    sprintf(query, "select title, keywords, released_date, author_number from %s where number = %d ;", BOOK_TABLE_NAME, bookNumber) ;
 
     if(mysql_query(connexion, query) != 0){
         system("clear");
@@ -212,7 +215,7 @@ void editBook(){
         if(new_author_number != 0) author_number = new_author_number;
 
         char query[300] ;
-        sprintf(query,"update %s set title = '%s', keywords = '%s', released_date = '%s', author_number = '%d' where number = %d", ADHERENT_TABLE_NAME, title, keywords, released_date, author_number, bookNumber) ;
+        sprintf(query,"update %s set title = '%s', keywords = '%s', released_date = '%s', author_number = '%d' where number = %d", BOOK_TABLE_NAME, title, keywords, released_date, author_number, bookNumber) ;
 
         system("clear");
 
@@ -234,7 +237,7 @@ void deleteBook(){
     int bookNumber = _getBookNumber("Suppression du livre ...");
 
     char query[64];
-    sprintf(query, "delete from %s where number = '%d' ;", ADHERENT_TABLE_NAME, bookNumber);
+    sprintf(query, "delete from %s where number = '%d' ;", BOOK_TABLE_NAME, bookNumber);
     
     system("clear");
     if(mysql_query(connexion, query) == 0){

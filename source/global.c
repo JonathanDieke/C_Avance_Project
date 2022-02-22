@@ -1,13 +1,14 @@
 #include <mysql/mysql.h>
 #include <stdio.h>
-#include "../headers/global.h"  
 #include "../headers/adherent.h"
 #include "../headers/book.h"
+#include "../headers/global.h"  
 
 MYSQL *connexion = NULL; 
 
 char* BOOK_TABLE_NAME = "books" ;
-char * ADHERENT_TABLE_NAME = "adherents";
+char* ADHERENT_TABLE_NAME = "adherents";
+char* AUTHOR_TABLE_NAME = "authors";
 
 void initializeConnexion(){
     connexion = mysql_init(0);
