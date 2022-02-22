@@ -13,10 +13,9 @@ void showMenuAdherent(){
         puts("1- AJOUTER UN ADHERENT");
         puts("2- LISTER LES ADHERENTS");
         puts("3- AFFICHER UN ADHERENT");
-        puts("4- MODIFIER LES INFORMATIONS D'UN ADHERENT");
-        puts("5- LISTER LES RETARDATAIRES");
-        puts("6- SUPPRIMER UN ADHERENT");
-        puts("7- Revenir en arrière");
+        puts("4- MODIFIER LES INFORMATIONS D'UN ADHERENT"); 
+        puts("5- SUPPRIMER UN ADHERENT");
+        puts("6- Revenir en arrière");
         printf("\nCHOISIR UNE OPTION : ");
         
         scanf("%d", &choice);
@@ -41,13 +40,9 @@ void showMenuAdherent(){
                 break;
             case 5:
                 system("clear");
-                latecomersAdherent();
-                break;
-            case 6:
-                system("clear");
                 deleteAdherent();
                 break;    
-            case 7:
+            case 6:
                 system("clear");
                 showMainMenu();
                 break;    
@@ -57,7 +52,7 @@ void showMenuAdherent(){
                 break;
         }
     
-    }while(choice < 1 || choice > 7) ;
+    }while(choice < 1 || choice > 6) ;
 }
 
 void addAdherent(){    
@@ -246,13 +241,6 @@ void deleteAdherent(){
     }
     sleep(2);
     
-    showMenuAdherent();
-}
-
-void latecomersAdherent(){
-
-    // récupérer tous les emprunts
-
     showMenuAdherent();
 }
 

@@ -1,5 +1,5 @@
-biblio : global.o adherent.o book.o main.o
-	gcc main.o adherent.o global.o book.o -o biblio -lmysqlclient
+biblio : global.o adherent.o book.o borrowing.o main.o
+	gcc main.o adherent.o global.o book.o borrowing.o -o biblio -lmysqlclient
 	rm *.o 
 
 global.o : source/global.c
@@ -10,6 +10,9 @@ adherent.o : source/adherent.c
 	
 book.o : source/book.c
 	gcc -c source/book.c -o book.o
+
+borrowing.o : source/borrowing.c
+	gcc -c source/borrowing.c -o borrowing.o
 
 main.o : main.c
 	gcc -c main.c -o main.o
