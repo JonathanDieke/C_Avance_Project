@@ -16,6 +16,9 @@ void deleteBorrowing();
 
 void latecomersBorrowing();
 
+void borrowedBook();
+
 int _getBorrowingNumber(char* message);
+
 
 #endif

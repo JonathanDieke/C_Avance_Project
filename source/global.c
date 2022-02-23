@@ -1,5 +1,6 @@
 #include <mysql/mysql.h>
 #include <stdio.h>
+#include <time.h>
 #include "../headers/adherent.h"
 #include "../headers/book.h"
 #include "../headers/borrowing.h"
@@ -71,3 +72,24 @@ void showMainMenu(){
     } while (choice < 1 || choice > 4);
     
 }
+
+char* getCurrentDate(){
+    time_t t_t = time(NULL);
+    struct tm now = *localtime(&t_t) ;
+    char* current_date = (char*) malloc(sizeof(char)*15);
+
+    sprintf(current_date, "%d-%d-%d", (now.tm_year+1900), (now.tm_mon+1), now.tm_mday);
+
+    return current_date ;
+}
+
+char* getCurrentDateTime(){
+    time_t t_t = time(NULL);
+    struct tm now = *localtime(&t_t) ;
+    char* current_datetime = (char*) malloc(sizeof(char)*25);
+
+    sprintf(current_datetime, "%d-%d-%d %d:%d:%d", (now.tm_year+1900), (now.tm_mon+1), now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec);
+
+    return current_datetime ;
+}
+

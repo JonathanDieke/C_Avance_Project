@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <time.h>
+#include <stdio.h> 
 #include <unistd.h>
 #include <string.h>
 #include "../headers/global.h"
@@ -17,8 +16,9 @@ void showMenuBorrowing(){
         puts("3- AFFICHER UN EMPRUNT");
         puts("4- MODIFIER UN EMPRUNT");
         puts("5- LISTER LES RETARDATAIRES");
-        puts("6- SUPPRIMER UN EMPRUNT");
-        puts("7- Revenir en arrière");
+        puts("6- LIVRES EMPRUNTES");
+        puts("7- SUPPRIMER UN EMPRUNT");
+        puts("8- Revenir en arrière");
         printf("\nCHOISIR UNE OPTION : ");
         
         scanf("%d", &choice);
@@ -47,9 +47,13 @@ void showMenuBorrowing(){
                 break;
             case 6:
                 system("clear");
+                borrowedBook();
+                break; 
+            case 7:
+                system("clear");
                 deleteBorrowing();
                 break;    
-            case 7:
+            case 8:
                 system("clear");
                 showMainMenu();
                 break;    
@@ -59,16 +63,12 @@ void showMenuBorrowing(){
                 break;
         }
     
-    }while(choice < 1 || choice > 7) ;
+    }while(choice < 1 || choice > 8) ;
 }
 
 void addBorrowing(){
 
-    time_t t_t = time(NULL);
-    struct tm now = *localtime(&t_t) ;
-    char current_date[15];
-
-    sprintf(current_date, "%d-%d-%d", (now.tm_year+1900), (now.tm_mon+1), now.tm_mday);
+    char* current_date = getCurrentDate();
 
     printf("\nEntrez l'identifiant de l'adhérent : ");
     getchar();
@@ -292,11 +292,18 @@ void deleteBorrowing(){
 
 void latecomersBorrowing(){
     // récupérer tous les emprunts
+    char query[256];
+    sprintf(query, "select * from %s where return_date < %s and effective_current_date is null", BOOK_TABLE_NAME, getCurrentDate());
     // comparer, pour chaque emrpunt, la date courante et la date de retour
     // si la date de retour est dépassée (date de retour supérieure à la date courante), considérer l'adhérent comme retardataire
     // afficher l'ensemble des retardataires
 
     showMenuBorrowing();
+}
+
+
+void borrowedBook(){
+
 }
 
 int _getBorrowingNumber(char* message){

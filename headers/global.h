@@ -18,5 +18,9 @@ void showMainMenu();
 
 char* lire(int size);
 
+char* getCurrentDate();
+
+char* getCurrentDateTime();
+
 
 #endif
