@@ -10,6 +10,7 @@ MYSQL *connexion = NULL;
 char* BOOK_TABLE_NAME = "books" ;
 char* ADHERENT_TABLE_NAME = "adherents";
 char* AUTHOR_TABLE_NAME = "authors";
+char* BORROWING_TABLE_NAME = "borrowings";
 
 void initializeConnexion(){
     connexion = mysql_init(0);
@@ -31,7 +32,7 @@ char *lire(int size){
 
 void showMainMenu(){
 
-    int choice = 0 ; 
+    int choice = 0 ;  
 
     do{
         puts("\t\t BIENVENUE !!! ");  
@@ -54,6 +55,7 @@ void showMainMenu(){
                 showMenuBook();
                 break;
             case 3:
+                system("clear");
                 showMenuBorrowing();
                 break;
             case 4:
