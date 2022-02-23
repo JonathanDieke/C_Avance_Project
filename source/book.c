@@ -103,7 +103,7 @@ void showBooks(){
         MYSQL_ROW row ;
         MYSQL_FIELD* fields ;
 
-        puts("\nListe exhaustive des ahérents : \n ");
+        puts("\nListe exhaustive des livres : \n ");
         puts(" -----------------------------------------------------------------------");
         puts("|\tId |\tTitre |\tMots clés |\tDate de parution |\tAutheur |");
         puts(" -----------------------------------------------------------------------");  
@@ -114,7 +114,7 @@ void showBooks(){
                 if(i != 4){
                     printf("\t%s |", row[i]);
                 }else{
-                    printf("\t%s %s|", row[i], row[i+1]);
+                    printf("\t%s %s |", row[i], row[i+1]);
                 }
             }
             puts("");
