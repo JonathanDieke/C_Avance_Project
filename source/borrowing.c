@@ -303,6 +303,52 @@ void latecomersBorrowing(){
 
 void borrowedBook(){
 
+    char query[512];
+    sprintf(query, "select b1.id, a.name, a.lname, b2.title, b1.out_date, b1.return_date, b1.effective_return_date from %s b1, %s a, %s b2 where effective_return_date is null and b1.book_number=b2.number and b1.adherent_number=a.number", BORROWING_TABLE_NAME, ADHERENT_TABLE_NAME, BOOK_TABLE_NAME, getCurrentDate());
+    
+    if(mysql_query(connexion, query) == 0){
+        MYSQL_RES* results = mysql_store_result(connexion);
+
+        if(results != NULL){
+
+            MYSQL_ROW row ;
+            MYSQL_FIELD* fields ;
+
+            puts("\nListe exhaustive des emprunts en cours : \n ");
+            puts(" -----------------------------------------------------------------------------------------------");
+            puts("|\tId |\tAdhérents |\tLivre |\tDate d'emprunt |\tRetour prévu |\tRetour effectif |");
+            puts(" -----------------------------------------------------------------------------------------------");  
+
+            while( (row = mysql_fetch_row(results)) != NULL ) {
+                printf("|");
+                for(int i = 0; i < 6; i++){
+                    if(i == 1){
+                        printf("\t%s %s |", row[i], row[i+1]);
+                        i++ ;
+                    }else{
+                        printf("\t%s |", row[i]);
+                    }
+                }
+                puts("");
+            }
+
+            sleep(5);
+            system("clear");
+            showMenuBorrowing();
+
+        }else{
+            system("clear");
+            puts("\n\t--- Impossible de traiter la requête ! --- \n");
+            sleep(3);
+            showMenuBorrowing();
+        }  
+        // comparer, pour chaque emrpunt, la date courante et la date de retour
+        // si la date de retour est dépassée (date de retour supérieure à la date courante), considérer l'adhérent comme retardataire
+        // afficher l'ensemble des retardataires
+    }else{
+        puts("\n--- Echec de la requête, veuillez réessayer ! --- \n");
+        showMenuBorrowing();
+    }
 }
 
 int _getBorrowingNumber(char* message){
