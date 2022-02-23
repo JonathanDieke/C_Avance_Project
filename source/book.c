@@ -176,60 +176,62 @@ void editBook(){
     char query[128] ;
     sprintf(query, "select title, keywords, released_date, author_number from %s where number = %d ;", BOOK_TABLE_NAME, bookNumber) ;
 
-    if(mysql_query(connexion, query) != 0){
+    if(mysql_query(connexion, query) == 0){
+        
+        MYSQL_RES* results = mysql_store_result(connexion);
+        MYSQL_ROW row ; 
+
+        char title[50], keywords[100], released_date[15];
+        int author_number;
+
+        if( (row = mysql_fetch_row(results)) != NULL ) {
+
+            sprintf(title,"%s", row[0]);
+            sprintf(keywords,"%s", row[1]);
+            sprintf(released_date,"%s", row[2]);
+            author_number = atoi(row[3]);
+
+            printf("\nEntrez le titre (%s) : ", title);
+            getchar();
+            char* new_title = lire(50);
+
+            printf("\nEntrez les mots clés (%s) : ", keywords);
+            char* new_keywords = lire(100);
+
+            printf("\nEntrez la date de parution (%s) : ", released_date);
+            char* new_released_date = lire(15);
+
+            printf("\nEntrez le numéro de l'autheur (%d) : ", author_number);
+            int new_author_number = atoi(lire(5));
+    
+
+            if(new_title[0] != 0) strcpy(title, new_title);
+            if(new_keywords[0] != 0) strcpy(keywords, new_keywords);
+            if(new_released_date[0] != 0) strcpy(released_date, new_released_date);
+            if(new_author_number != 0) author_number = new_author_number;
+
+            char query[300] ;
+            sprintf(query,"update %s set title = '%s', keywords = '%s', released_date = '%s', author_number = '%d' where number = %d", BOOK_TABLE_NAME, title, keywords, released_date, author_number, bookNumber) ;
+
+            system("clear");
+
+            if(mysql_query(connexion, query) == 0){
+                puts("\n\t--- Edition réussie ! ---\n");
+            }else{
+                puts("\n\t--- Echec de l'édition, veuillez réessayer ! ---\n");
+            } 
+        }else{
+            system("clear");
+            puts("\n\t--- Impossible de traiter la requête ! --- \n");
+        }
+
+        showMenuBook();
+    }else{
         system("clear");
         puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
         showMenuBook();
     }
 
-    MYSQL_RES* results = mysql_store_result(connexion);
-    MYSQL_ROW row ; 
-
-    char title[50], keywords[100], released_date[15];
-    int author_number;
-
-    if( (row = mysql_fetch_row(results)) != NULL ) {
-
-        sprintf(title,"%s", row[0]);
-        sprintf(keywords,"%s", row[1]);
-        sprintf(released_date,"%s", row[2]);
-        author_number = atoi(row[3]);
-
-        printf("\nEntrez le titre (%s) : ", title);
-        getchar();
-        char* new_title = lire(50);
-
-        printf("\nEntrez les mots clés (%s) : ", keywords);
-        char* new_keywords = lire(100);
-
-        printf("\nEntrez la date de parution (%s) : ", released_date);
-        char* new_released_date = lire(15);
-
-        printf("\nEntrez le numéro de l'autheur (%d) : ", author_number);
-        int new_author_number = atoi(lire(5));
- 
-
-        if(new_title[0] != 0) strcpy(title, new_title);
-        if(new_keywords[0] != 0) strcpy(keywords, new_keywords);
-        if(new_released_date[0] != 0) strcpy(released_date, new_released_date);
-        if(new_author_number != 0) author_number = new_author_number;
-
-        char query[300] ;
-        sprintf(query,"update %s set title = '%s', keywords = '%s', released_date = '%s', author_number = '%d' where number = %d", BOOK_TABLE_NAME, title, keywords, released_date, author_number, bookNumber) ;
-
-        system("clear");
-
-        if(mysql_query(connexion, query) == 0){
-            puts("\n\t--- Edition réussie ! ---\n");
-        }else{
-            puts("\n\t--- Echec de l'édition, veuillez réessayer ! ---\n");
-        } 
-    }else{
-        system("clear");
-        puts("\n\t--- Impossible de traiter la requête ! --- \n");
-    }
-
-    showMenuBook();
 }
 
 void deleteBook(){

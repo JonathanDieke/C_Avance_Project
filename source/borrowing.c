@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
-// #include <string.h>
+#include <string.h>
 #include "../headers/global.h"
 #include "../headers/borrowing.h"
 
@@ -205,7 +205,73 @@ void showBorrowing(){
 }
 
 void editBorrowing(){
-    
+    int borrowingNumber = _getBorrowingNumber("Edition d'un emprunt...");
+ 
+    char query[300] ;
+    sprintf(query, "select a.name, a.lname, b2.title, b1.out_date, b1.return_date, b1.effective_return_date from %s b1, %s a, %s b2 where b1.adherent_number = a.number and b1.book_number = b2.number and b1.id='%d'", BORROWING_TABLE_NAME, ADHERENT_TABLE_NAME, BOOK_TABLE_NAME, borrowingNumber);
+     
+    if(mysql_query(connexion, query) == 0){
+
+        MYSQL_RES* results = mysql_store_result(connexion);
+        MYSQL_ROW row ; 
+
+        char adherent[80], book[50], out_date[15], return_date[15], effective_return_date[15];
+
+        if( (row = mysql_fetch_row(results)) != NULL ) {
+
+            sprintf(adherent,"%s %s", row[0], row[1]);
+            sprintf(book,"%s", row[2]);
+            sprintf(out_date,"%s", row[3]);
+            sprintf(return_date,"%s", row[4]);
+            sprintf(effective_return_date,"%s", row[5]);
+            
+            printf("\nNoms de l'adhérent : %s", adherent);  
+
+            printf("\nTitre du livre : %s ", book);
+
+            printf("\nDate d'emprunt : %s ", out_date);
+
+            printf("\nDate de retour : %s ", return_date);
+
+            if(row[5] == NULL)  printf("\nDate de retour effective (AAAA-MM-JJ) :");
+            else   printf("\nDate de retour effective (valeur actuelle : %s) : ", effective_return_date);
+            getchar();
+            char* new_effective_return_date = lire(15);
+ 
+            if(new_effective_return_date[0] != 0) {
+                strcpy(effective_return_date, new_effective_return_date); 
+                char query[256] ;
+                sprintf(query,"update %s set effective_return_date = '%s' where id = %d", BORROWING_TABLE_NAME, effective_return_date, borrowingNumber) ;
+
+                system("clear");
+
+                if(mysql_query(connexion, query) == 0){
+                    puts("\n\t --- Modificaion réussie ! ---");                    
+                }else{
+                    puts("\n\t --- Echec des modifications, veuillez réessayer ! ---");
+                }
+                showMainMenu();
+            }else{
+                system("clear");
+
+                puts("\n\t--- Aucune modification apportée ! --- \n");
+
+                showMainMenu();
+            }
+ 
+        }else{
+            system("clear");
+            puts("\n\t--- Impossible de traiter la requête ! --- \n");
+        }
+
+
+    }else{
+        system("clear");
+        puts("\n\t--- Echec de la requête, veuillez réessayer ! --- \n");
+        sleep(3);
+        showMenuBorrowing();
+
+    }
 }
 
 void deleteBorrowing(){
