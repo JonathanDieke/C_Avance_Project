@@ -1,2 +1,4 @@
 - faire des pauses lorsqu'on affiche des résultas (showBook, showAdherent...)
 - créer une fonction recherche 
+- trouver un moyen d'arreter une action (d'ajout, d'édition, de suppression...) sans arrêter le programme de force (Ctrl+c)
+- faire l'insertion des données factices lorsque les tables sont vides

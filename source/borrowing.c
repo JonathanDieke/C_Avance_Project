@@ -275,7 +275,19 @@ void editBorrowing(){
 }
 
 void deleteBorrowing(){
+    int borrowingNumber = _getBorrowingNumber("Suppression d'un emprunt ...");
+
+    char query[64];
+    sprintf(query, "delete from %s where id = '%d' ;", BORROWING_TABLE_NAME, borrowingNumber);
     
+    system("clear");
+    if(mysql_query(connexion, query) == 0){
+        puts("\n\t--- Suppression réussie ! --- \n");
+    }else{
+        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
+    }
+    sleep(2);
+    showMenuBorrowing();
 } 
 
 void latecomersBorrowing(){
