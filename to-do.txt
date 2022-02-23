@@ -1,1 +1,2 @@
 - faire des pauses lorsqu'on affiche des résultas (showBook, showAdherent...)
+- créer une fonction recherche 
