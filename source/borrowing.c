@@ -112,7 +112,7 @@ void showBorrowings(){
     if(mysql_query(connexion, query) == 0){
         MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ;
             MYSQL_FIELD* fields ;
@@ -136,7 +136,7 @@ void showBorrowings(){
             } 
 
         }else{
-            impossibleRequestTreatment();
+            NoDataAvailabe();
         }                             
         doPause();
         system("clear");                                                                              
@@ -157,7 +157,7 @@ void showBorrowing(){
 
          MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ;
             MYSQL_FIELD* fields ;
@@ -181,7 +181,8 @@ void showBorrowing(){
             }
 
         }else{
-            impossibleRequestTreatment();
+            NoDataAvailabe();
+            puts("\n\t--- Assurez-vous d'avoir saisi le bon numéro d'adhérent --- \n");
         }    
         doPause();
         system("clear");
@@ -205,7 +206,7 @@ void editBorrowing(){
 
         char adherent[80], book[50], out_date[15], return_date[15], effective_return_date[15];
 
-        if( (row = mysql_fetch_row(results)) != NULL ) {
+        if( (row = mysql_fetch_row(results)) != NULL && mysql_num_rows(results) > 0) {
 
             sprintf(adherent,"%s %s", row[0], row[1]);
             sprintf(book,"%s", row[2]);
@@ -245,7 +246,8 @@ void editBorrowing(){
             }
  
         }else{
-            impossibleRequestTreatment();
+            NoDataAvailabe();
+            puts("\n\t--- Assurez-vous d'avoir saisi le bon numéro d'adhérent --- \n");
         }
 
         doPause();
@@ -285,7 +287,7 @@ void latecomersBorrowing(){
     if(mysql_query(connexion, query) == 0){
         MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ;
             MYSQL_FIELD* fields ;
@@ -309,7 +311,8 @@ void latecomersBorrowing(){
             }
 
         }else{
-            impossibleRequestTreatment(); 
+            NoDataAvailabe();
+            puts("\n\t--- Assurez-vous d'avoir saisi le bon numéro d'adhérent --- \n"); 
         }  
         doPause();
         system("clear");
@@ -329,7 +332,7 @@ void borrowedBook(){
     if(mysql_query(connexion, query) == 0){
         MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ;
             MYSQL_FIELD* fields ;
@@ -353,7 +356,8 @@ void borrowedBook(){
             }
 
         }else{
-            impossibleRequestTreatment();
+            NoDataAvailabe();
+            puts("\n\t--- Assurez-vous d'avoir saisi le bon numéro d'adhérent --- \n");
         }  
         doPause();
         system("clear");

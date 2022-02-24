@@ -30,4 +30,6 @@ void impossibleRequestTreatment();
 
 void contactAdmin();
 
+void NoDataAvailabe();
+
 #endif

@@ -50,7 +50,7 @@ int main(int argc, int *argv[]){
             }
         }
 
-        //books fictifs
+        // books fictifs
         sprintf(query, "select * from books");
         if(mysql_query(connexion, query) == 0){
             results = mysql_store_result(connexion);

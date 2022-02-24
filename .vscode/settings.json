@@ -3,6 +3,7 @@
         "adherent.h": "c",
         "global.h": "c",
         "mysql.h": "c",
-        "book.h": "c"
+        "book.h": "c",
+        "borrowing.h": "c"
     }
 }

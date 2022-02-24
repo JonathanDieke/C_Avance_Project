@@ -101,6 +101,10 @@ void contactAdmin(){
     puts("\n\t--- Echec, veuillez contacter l'administrateur ! ---\n");
 }
 
+void NoDataAvailabe(){
+    puts("\n\tAucune donnée disponible ! \n");
+}
+
 char* getCurrentDateTime(){
     time_t t_t = time(NULL);
     struct tm now = *localtime(&t_t) ;

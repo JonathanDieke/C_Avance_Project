@@ -90,13 +90,11 @@ void showBooks(){
     char query [256];
     sprintf(query, "select b.number, b.title, b.keywords, b.released_date, a.name, a.lname from %s b, %s a where b.author_number = a.number", BOOK_TABLE_NAME, AUTHOR_TABLE_NAME);
     
-    printf("\nquery : %s \n", query) ;  
-    
     if(mysql_query(connexion, query) == 0){
 
         MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ;
             MYSQL_FIELD* fields ;
@@ -119,7 +117,7 @@ void showBooks(){
             }
 
         }else{ 
-            impossibleRequestTreatment();
+            NoDataAvailabe();
         }
         doPause();
         system("clear");
@@ -139,7 +137,7 @@ void showBook(){
 
          MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ; 
 
@@ -150,7 +148,7 @@ void showBook(){
             }
 
         }else{ 
-            impossibleRequestTreatment();
+            NoDataAvailabe();
         }
         doPause();
         system("clear");
@@ -174,7 +172,7 @@ void editBook(){
         char title[50], keywords[100], released_date[15];
         int author_number;
 
-        if( (row = mysql_fetch_row(results)) != NULL ) {
+        if( (row = mysql_fetch_row(results)) != NULL && mysql_num_rows(results) > 0) {
 
             sprintf(title,"%s", row[0]);
             sprintf(keywords,"%s", row[1]);
@@ -211,7 +209,8 @@ void editBook(){
                 puts("\n\t--- Echec de l'édition, veuillez réessayer ! ---\n");
             } 
         }else{
-            impossibleRequestTreatment();
+            NoDataAvailabe();
+            puts("\n\t--- Assurez-vous d'avoir saisi le bon numéro de livre --- \n");
         }
         doPause();
         system("clear");

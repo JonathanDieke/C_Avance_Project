@@ -92,7 +92,7 @@ void showAdherents(){
     if(mysql_query(connexion, query) == 0){
         MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ;
             MYSQL_FIELD* fields ;
@@ -111,7 +111,7 @@ void showAdherents(){
             }
 
         }else{
-            puts("\n\t--- Impossible de traiter la requête ! --- \n");
+            NoDataAvailabe();
         }
         doPause();
         system("clear");
@@ -130,7 +130,7 @@ void showAdherent(){
     if(mysql_query(connexion, query) == 0){
         MYSQL_RES* results = mysql_store_result(connexion);
 
-        if(results != NULL){
+        if(results != NULL && mysql_num_rows(results) > 0){
 
             MYSQL_ROW row ; 
 
@@ -141,7 +141,7 @@ void showAdherent(){
             }
 
         }else{
-            impossibleRequestTreatment();
+            NoDataAvailabe();
         }
         doPause();
         system("clear");
@@ -167,7 +167,7 @@ void editAdherent(){
 
         char name[30], lname[50], address[50], birthdate[15];  
 
-        if( (row = mysql_fetch_row(results)) != NULL ) {
+        if( (row = mysql_fetch_row(results)) != NULL && mysql_num_rows(results) >0 ) {
 
             sprintf(name,"%s", row[0]);
             sprintf(lname,"%s", row[1]);
@@ -204,7 +204,8 @@ void editAdherent(){
                 puts("\n\t--- Echec de l'édition, veuillez réessayer ! ---\n");
             } 
         }else{ 
-            puts("\n\t--- Impossible de traiter la requête ! (Assurez-vous d'avoir saisi le bon numéro d'adhérent) --- \n");
+            NoDataAvailabe();
+            puts("\n\t--- Assurez-vous d'avoir saisi le bon numéro d'adhérent --- \n");
             doPause();
         }
                                                                     
