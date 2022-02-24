@@ -72,7 +72,7 @@ void addBook(){
     int author_number = atoi(lire(50));
 
     char query[256] ;
-    sprintf(query, "insert into %s(title, keywords, released_date, author_number) values('%s', '%s', '%s', '%d')", ADHERENT_TABLE_NAME, title, keywords, released_date, author_number);
+    sprintf(query, "insert into %s(title, keywords, released_date, author_number) values('%s', '%s', '%s', '%d')", BOOK_TABLE_NAME, title, keywords, released_date, author_number);
 
     system("clear");
 

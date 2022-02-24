@@ -104,11 +104,11 @@ void showAdherents(){
 
         puts("\nListe exhaustive des ahérents : \n ");
         puts(" -------------------------------------------------------------------------");
-        puts("|\tId |\tNom |\tPrénom |\tAdresse |\tDate de naissance |");
+        puts("|\t Id |\t Nom |\t Prénom |\t Adresse |\t Date de naissance |");
         puts(" -------------------------------------------------------------------------");  
 
         while( (row = mysql_fetch_row(results)) != NULL ) { 
-            printf("|");
+            // printf("|\t\t %s |\t\t %s |\t\t\t %s |\t\t\t %s |\t\t %s |\n", row[0],row[1],row[2],row[3],row[4]);
             for(int i = 0; i < 5; i++){
                 printf("\t%s |", row[i]);
             } 
@@ -166,7 +166,7 @@ void showAdherent(){
 
 void editAdherent(){
 
-    int adherentNumber = _getAdherentNumber("Edition du livre ...") ;
+    int adherentNumber = _getAdherentNumber("Edition de l'adhérent ...") ;
 
     char query[128] ;
     sprintf(query, "select name, lname, address, birthdate from %s where number = %d ;", ADHERENT_TABLE_NAME, adherentNumber) ;
@@ -196,7 +196,7 @@ void editAdherent(){
         printf("\nEntrez le prénom (%s) : ", lname);
         char* new_lname = lire(50);
 
-        printf("\nEntrez l'adresse' (%s) : ", address);
+        printf("\nEntrez l'adresse (%s) : ", address);
         char* new_address = lire(50);
 
         printf("\nEntrez la date de naissance (%s) : ", birthdate);
@@ -206,7 +206,7 @@ void editAdherent(){
         if(new_name[0] != 0) strcpy(name, new_name);
         if(new_lname[0] != 0) strcpy(lname, new_lname);
         if(new_address[0] != 0) strcpy(address, new_address);
-        if(new_address[0] != 0) strcpy(birthdate, new_birthdate); 
+        if(new_birthdate[0] != 0) strcpy(birthdate, new_birthdate); 
 
         char query[300] ;
         sprintf(query,"update %s set name = '%s', lname = '%s', address = '%s', birthdate = '%s' where number = %d", ADHERENT_TABLE_NAME, name, lname, address, birthdate, adherentNumber) ;
@@ -231,9 +231,10 @@ void deleteAdherent(){
     int adherentNumber = _getAdherentNumber("Suppression de l'adhérent ...");
 
     char query[64];
-    sprintf(query, "delete from %s where number = '%d' ;", ADHERENT_TABLE_NAME, adherentNumber);
+    sprintf(query, "delete from %s where number = %d ;", ADHERENT_TABLE_NAME, adherentNumber);
     
     system("clear");
+    
     if(mysql_query(connexion, query) == 0){
         puts("\n\t--- Suppression réussie ! --- \n");
     }else{
