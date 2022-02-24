@@ -79,7 +79,7 @@ void addBook(){
     if(mysql_query(connexion, query) == 0){
         puts("\n\t--- Ajout réussi ! ---\n");
     }else{
-        puts("\n\t--- Echec de l'ajout, veuillez réessayer ! ---\n");
+        contactAdmin();
     }
 
     showMenuBook();
@@ -90,46 +90,41 @@ void showBooks(){
     char query [256];
     sprintf(query, "select b.number, b.title, b.keywords, b.released_date, a.name, a.lname from %s b, %s a where b.author_number = a.number", BOOK_TABLE_NAME, AUTHOR_TABLE_NAME);
     
-    if(mysql_query(connexion, query) != 0){
-        system("clear");
-        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
-        showMenuBook();
-    }
+    if(mysql_query(connexion, query) == 0){
 
-    MYSQL_RES* results = mysql_store_result(connexion);
+        MYSQL_RES* results = mysql_store_result(connexion);
 
-    if(results != NULL){
+        if(results != NULL){
 
-        MYSQL_ROW row ;
-        MYSQL_FIELD* fields ;
+            MYSQL_ROW row ;
+            MYSQL_FIELD* fields ;
 
-        puts("\nListe exhaustive des livres : \n ");
-        puts(" -----------------------------------------------------------------------");
-        puts("|\tId |\tTitre |\tMots clés |\tDate de parution |\tAutheur |");
-        puts(" -----------------------------------------------------------------------");  
+            puts("\nListe exhaustive des livres : \n ");
+            puts(" -----------------------------------------------------------------------");
+            puts("|\tId |\tTitre |\tMots clés |\tDate de parution |\tAutheur |");
+            puts(" -----------------------------------------------------------------------");  
 
-        while( (row = mysql_fetch_row(results)) != NULL ) {
-            printf("|");
-            for(int i = 0; i < 5; i++){
-                if(i != 4){
-                    printf("\t%s |", row[i]);
-                }else{
-                    printf("\t%s %s |", row[i], row[i+1]);
+            while( (row = mysql_fetch_row(results)) != NULL ) {
+                printf("|");
+                for(int i = 0; i < 5; i++){
+                    if(i != 4){
+                        printf("\t%s |", row[i]);
+                    }else{
+                        printf("\t%s %s |", row[i], row[i+1]);
+                    }
                 }
+                puts("");
             }
-            puts("");
+
+        }else{ 
+            impossibleRequestTreatment();
         }
-
-        sleep(5);
+        doPause();
         system("clear");
-        showMenuBook();
-
     }else{
-        system("clear");
-        puts("\n\t--- Impossible de traiter la requête ! --- \n");
-        sleep(3);
-        showMenuBook();
+        contactAdmin();
     }
+    showMenuBook();
 }
 
 void showBook(){
@@ -138,13 +133,9 @@ void showBook(){
     char query[128];
     sprintf(query, "select number, title, keywords, released_date, author_number from %s where number = '%d' ;", BOOK_TABLE_NAME, bookNumber);
     
-    if(mysql_query(connexion, query) != 0){
-        system("clear");
-        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
-        showMenuBook();
-    }else{
+    if(mysql_query(connexion, query) == 0){
 
-        MYSQL_RES* results = mysql_store_result(connexion);
+         MYSQL_RES* results = mysql_store_result(connexion);
 
         if(results != NULL){
 
@@ -156,18 +147,15 @@ void showBook(){
                 printf("Id : %s \nTitre : %s\nMots clés : %s \nDate de parution : %s \nAutheur : %s\n", row[0],row[1],row[2],row[3],row[4]);
             }
 
-            sleep(5);
-            system("clear");
-
-        }else{
-            system("clear");
-            puts("\n\t--- Impossible de traiter la requête ! --- \n");
-            sleep(3);
+        }else{ 
+            impossibleRequestTreatment();
         }
-        showMenuBook();
+        doPause();
+        system("clear");
+    }else{
+        contactAdmin();       
     }
-
-
+    showMenuBook();
 }
 
 void editBook(){ 
@@ -221,16 +209,15 @@ void editBook(){
                 puts("\n\t--- Echec de l'édition, veuillez réessayer ! ---\n");
             } 
         }else{
-            system("clear");
-            puts("\n\t--- Impossible de traiter la requête ! --- \n");
+            impossibleRequestTreatment();
         }
-
-        showMenuBook();
-    }else{
+        doPause();
         system("clear");
-        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
-        showMenuBook();
+    }else{
+        contactAdmin();
     }
+
+    showMenuBook();
 
 }
 
@@ -247,7 +234,7 @@ void deleteBook(){
     }else{
         puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
     }
-    sleep(2);
+    
     showMenuBook();
 }
 

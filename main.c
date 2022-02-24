@@ -7,8 +7,7 @@
 int main(int argc, int *argv[]){
     
     initializeConnexion();
-
-
+ 
     if(mysql_real_connect(connexion, "localhost", "legerant", "LenerfdelaGuerre2", "biblio", 0, NULL, 0)){ // Connexion au serveur
 
         mysql_query(connexion,"CREATE TABLE IF NOT EXISTS adherents(number integer auto_increment primary key, name varchar(30) NOT NULL, lname varchar(50) NOT NULL, address varchar(50) NOT NULL, birthdate date NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ;");

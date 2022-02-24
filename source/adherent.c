@@ -78,7 +78,7 @@ void addAdherent(){
     if(mysql_query(connexion, query) == 0){
         puts("\n\t--- Ajout réussi ! ---\n");
     }else{
-        puts("\n\t--- Echec de l'ajout, veuillez réessayer ! ---\n");
+        contactAdmin();
     }
 
     showMenuAdherent();
@@ -89,42 +89,36 @@ void showAdherents(){
     char query[256];
     sprintf(query, "select number, name, lname, address, birthdate from %s", ADHERENT_TABLE_NAME);
 
-    if(mysql_query(connexion, query) != 0){
-        system("clear");
-        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
-        showMenuAdherent();
-    }
+    if(mysql_query(connexion, query) == 0){
+        MYSQL_RES* results = mysql_store_result(connexion);
 
-    MYSQL_RES* results = mysql_store_result(connexion);
+        if(results != NULL){
 
-    if(results != NULL){
+            MYSQL_ROW row ;
+            MYSQL_FIELD* fields ;
 
-        MYSQL_ROW row ;
-        MYSQL_FIELD* fields ;
+            puts("\nListe exhaustive des ahérents : \n ");
+            puts(" -------------------------------------------------------------------------");
+            puts("|\t Id |\t Nom |\t Prénom |\t Adresse |\t Date de naissance |");
+            puts(" -------------------------------------------------------------------------");  
 
-        puts("\nListe exhaustive des ahérents : \n ");
-        puts(" -------------------------------------------------------------------------");
-        puts("|\t Id |\t Nom |\t Prénom |\t Adresse |\t Date de naissance |");
-        puts(" -------------------------------------------------------------------------");  
+            while( (row = mysql_fetch_row(results)) != NULL ) { 
+                // printf("|\t\t %s |\t\t %s |\t\t\t %s |\t\t\t %s |\t\t %s |\n", row[0],row[1],row[2],row[3],row[4]);
+                for(int i = 0; i < 5; i++){
+                    printf("\t%s |", row[i]);
+                } 
+                puts("");
+            }
 
-        while( (row = mysql_fetch_row(results)) != NULL ) { 
-            // printf("|\t\t %s |\t\t %s |\t\t\t %s |\t\t\t %s |\t\t %s |\n", row[0],row[1],row[2],row[3],row[4]);
-            for(int i = 0; i < 5; i++){
-                printf("\t%s |", row[i]);
-            } 
-            puts("");
+        }else{
+            puts("\n\t--- Impossible de traiter la requête ! --- \n");
         }
-
-        sleep(5);
+        doPause();
         system("clear");
-        showMenuAdherent();
-
-    }else{
-        system("clear");
-        puts("\n\t--- Impossible de traiter la requête ! --- \n");
-        sleep(3);
-        showMenuAdherent();
+    }else{ 
+        contactAdmin();
     }
+    showMenuAdherent();
 }
 
 void showAdherent(){
@@ -146,19 +140,14 @@ void showAdherent(){
                 printf("Id : %s \nNom : %s\nPrénom : %s \nAdresse : %s \nDate de naissance : %s\n", row[0],row[1],row[2],row[3],row[4]);
             }
 
-            sleep(5);
-            system("clear");
-
         }else{
-            system("clear");
-            puts("\n\t--- Impossible de traiter la requête ! --- \n");
-            sleep(3);
+            impossibleRequestTreatment();
         }
-        showMenuAdherent();
-    }else{
+        doPause();
         system("clear");
-        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
-        showMenuAdherent();
+        
+    }else{
+        contactAdmin();
     }
 
     showMenuAdherent();
@@ -171,76 +160,72 @@ void editAdherent(){
     char query[128] ;
     sprintf(query, "select name, lname, address, birthdate from %s where number = %d ;", ADHERENT_TABLE_NAME, adherentNumber) ;
 
-    if(mysql_query(connexion, query) != 0){
-        system("clear");
-        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
-        showMenuAdherent();
-    }
+    if(mysql_query(connexion, query) == 0){
 
-    MYSQL_RES* results = mysql_store_result(connexion);
-    MYSQL_ROW row ; 
+        MYSQL_RES* results = mysql_store_result(connexion);
+        MYSQL_ROW row ; 
 
-    char name[30], lname[50], address[50], birthdate[15];  
+        char name[30], lname[50], address[50], birthdate[15];  
 
-    if( (row = mysql_fetch_row(results)) != NULL ) {
+        if( (row = mysql_fetch_row(results)) != NULL ) {
 
-        sprintf(name,"%s", row[0]);
-        sprintf(lname,"%s", row[1]);
-        sprintf(address,"%s", row[2]);
-        sprintf(birthdate,"%s", row[3]);
+            sprintf(name,"%s", row[0]);
+            sprintf(lname,"%s", row[1]);
+            sprintf(address,"%s", row[2]);
+            sprintf(birthdate,"%s", row[3]);
 
-        printf("\nEntrez le nom (%s) : ", name);
-        getchar();
-        char* new_name = lire(30);
+            printf("\nEntrez le nom (%s) : ", name);
+            getchar();
+            char* new_name = lire(30);
 
-        printf("\nEntrez le prénom (%s) : ", lname);
-        char* new_lname = lire(50);
+            printf("\nEntrez le prénom (%s) : ", lname);
+            char* new_lname = lire(50);
 
-        printf("\nEntrez l'adresse (%s) : ", address);
-        char* new_address = lire(50);
+            printf("\nEntrez l'adresse (%s) : ", address);
+            char* new_address = lire(50);
 
-        printf("\nEntrez la date de naissance (%s) : ", birthdate);
-        char* new_birthdate = lire(15);
- 
+            printf("\nEntrez la date de naissance (%s) : ", birthdate);
+            char* new_birthdate = lire(15);
+    
 
-        if(new_name[0] != 0) strcpy(name, new_name);
-        if(new_lname[0] != 0) strcpy(lname, new_lname);
-        if(new_address[0] != 0) strcpy(address, new_address);
-        if(new_birthdate[0] != 0) strcpy(birthdate, new_birthdate); 
+            if(new_name[0] != 0) strcpy(name, new_name);
+            if(new_lname[0] != 0) strcpy(lname, new_lname);
+            if(new_address[0] != 0) strcpy(address, new_address);
+            if(new_birthdate[0] != 0) strcpy(birthdate, new_birthdate); 
 
-        char query[300] ;
-        sprintf(query,"update %s set name = '%s', lname = '%s', address = '%s', birthdate = '%s' where number = %d", ADHERENT_TABLE_NAME, name, lname, address, birthdate, adherentNumber) ;
+            char query[300] ;
+            sprintf(query,"update %s set name = '%s', lname = '%s', address = '%s', birthdate = '%s' where number = %d", ADHERENT_TABLE_NAME, name, lname, address, birthdate, adherentNumber) ;
 
-        system("clear");
+            system("clear");
 
-        if(mysql_query(connexion, query) == 0){
-            puts("\n\t--- Edition réussie ! ---\n");
-        }else{
-            puts("\n\t--- Echec de l'édition, veuillez réessayer ! ---\n");
-        } 
-    }else{
-        system("clear");
-        puts("\n\t--- Impossible de traiter la requête ! (Assurez-vous d'avoir saisi le bon numéro d'adhérent) --- \n");
+            if(mysql_query(connexion, query) == 0){
+                puts("\n\t--- Edition réussie ! ---\n");
+            }else{
+                puts("\n\t--- Echec de l'édition, veuillez réessayer ! ---\n");
+            } 
+        }else{ 
+            puts("\n\t--- Impossible de traiter la requête ! (Assurez-vous d'avoir saisi le bon numéro d'adhérent) --- \n");
+            doPause();
+        }
+                                                                    
+    }else{ 
+        contactAdmin();
     }
 
     showMenuAdherent();
 }
 
-void deleteAdherent(){
-
+void deleteAdherent(){ 
     int adherentNumber = _getAdherentNumber("Suppression de l'adhérent ...");
 
     char query[64];
     sprintf(query, "delete from %s where number = %d ;", ADHERENT_TABLE_NAME, adherentNumber);
     
-    system("clear");
-    
     if(mysql_query(connexion, query) == 0){
         puts("\n\t--- Suppression réussie ! --- \n");
     }else{
-        puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
+        contactAdmin();
     }
-    sleep(2);
     
     showMenuAdherent();
 }

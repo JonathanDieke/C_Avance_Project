@@ -1,9 +1,9 @@
 - faire des pauses lorsqu'on affiche des résultas (showBook, showAdherent...)
+- globaliser/factoriser les messages d'erreur
 - créer une fonction recherche / pour les retardataires à partir des noms des ahdérents ou des livres
 - trouver un moyen d'arreter une action (d'ajout, d'édition, de suppression...) sans arrêter le programme de force (Ctrl+c)
 - faire l'insertion des données factices lorsque les tables sont vides
 - retardataires (garder les 2) : ceux qui n'ont pas encore déposé et dont la date de retour est dépassée ou eux et en plus ceux qui ont déposé mais après la date de retour ?
-- globaliser/factoriser les messages d'erreur
 - donnée introuvable
 - fonctions retardataires et livres empruntés
 

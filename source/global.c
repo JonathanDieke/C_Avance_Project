@@ -83,6 +83,24 @@ char* getCurrentDate(){
     return current_date ;
 }
 
+void doPause(){
+    getchar();
+    printf("\n\nAppuyer sur une touche pour continuer ...\n");
+    getchar();
+}
+
+void failRequest_Retry(){
+    puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
+}
+
+void impossibleRequestTreatment(){
+    puts("\n\t--- Impossible de traiter la requête ! --- \n");
+}
+
+void contactAdmin(){
+    puts("\n\t--- Echec, veuillez contacter l'administrateur ! ---\n");
+}
+
 char* getCurrentDateTime(){
     time_t t_t = time(NULL);
     struct tm now = *localtime(&t_t) ;

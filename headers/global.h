@@ -22,5 +22,12 @@ char* getCurrentDate();
 
 char* getCurrentDateTime();
 
+void doPause();
+
+void failRequest_Retry();
+
+void impossibleRequestTreatment();
+
+void contactAdmin();
 
 #endif
