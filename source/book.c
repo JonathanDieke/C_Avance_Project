@@ -90,6 +90,8 @@ void showBooks(){
     char query [256];
     sprintf(query, "select b.number, b.title, b.keywords, b.released_date, a.name, a.lname from %s b, %s a where b.author_number = a.number", BOOK_TABLE_NAME, AUTHOR_TABLE_NAME);
     
+    printf("\nquery : %s \n", query) ;  
+    
     if(mysql_query(connexion, query) == 0){
 
         MYSQL_RES* results = mysql_store_result(connexion);
