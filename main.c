@@ -2,13 +2,21 @@
 #include <string.h>
 #include <time.h>
 #include <mysql/mysql.h>
+// #include <Rmath.h>
 #include "./headers/global.h"
+
 
 int main(int argc, int *argv[]){
     
-    initializeConnexion();
+    char 
+        host[15] = "localhost", 
+        user[15] = "legerant", 
+        password [15]= "Tarzan225", 
+        database_name[15] = "biblio";
  
-    if(mysql_real_connect(connexion, "localhost", "legerant", "LenerfdelaGuerre2", "biblio", 0, NULL, 0)){ // Connexion au serveur
+    initializeConnexion();
+  
+    if(mysql_real_connect(connexion, host, user, password, database_name, 0, NULL, 0)){ // Connexion au serveur
 
         mysql_query(connexion,"CREATE TABLE IF NOT EXISTS adherents(number integer auto_increment primary key, name varchar(30) NOT NULL, lname varchar(50) NOT NULL, address varchar(50) NOT NULL, birthdate date NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ;");
 
@@ -31,9 +39,10 @@ int main(int argc, int *argv[]){
                 mysql_query(connexion, "insert into authors(name, lname) values('Roye', 'Traoré')") ;
                 mysql_query(connexion, "insert into authors(name, lname) values('William', 'Kalumbi')") ;
                 mysql_query(connexion, "insert into authors(name, lname) values('Laouni', 'Mouhid')") ;
-            }else{
-                printf("\n erreur insertion authors \n");
             }
+            // else{
+            //     printf("\n erreur insertion authors \n");
+            // }
         }
 
         //adherents fictifs
@@ -45,9 +54,10 @@ int main(int argc, int *argv[]){
                 mysql_query(connexion, "insert into adherents(name, lname, address, birthdate) values('Madeleine', 'Ouattara', 'treichville', '1998-06-02')") ;
                 mysql_query(connexion, "insert into adherents(name, lname, address, birthdate) values('Jacques', 'Fodio', 'Sideci', '2000-10-3')") ;
                 mysql_query(connexion, "insert into adherents(name, lname, address, birthdate) values('David', 'Leroi', 'Silicon', '1995-07-13')") ;
-            }else{
-                printf("\n erreur insertion adherents \n");
             }
+            // else{
+            //     printf("\n erreur insertion adherents \n");
+            // }
         }
 
         // books fictifs
@@ -59,9 +69,10 @@ int main(int argc, int *argv[]){
                 mysql_query(connexion, "insert into books(title, keywords, released_date, author_number) values('Coloré', 'loyauté, courage', '2020-04-05', 4)") ;
                 mysql_query(connexion, "insert into books(title, keywords, released_date, author_number) values('test', 'test', '2022-02-24', 1)") ;
                 mysql_query(connexion, "insert into books(title, keywords, released_date, author_number) values('Amazing grace', 'christ, glorious, pray', '2019-03-03', 2)") ;
-            }else{
-                printf("\n erreur insertion books \n");
             }
+            // else{
+            //     printf("\n erreur insertion books \n");
+            // }
         }
 
         //borrowings fictifs
@@ -73,9 +84,10 @@ int main(int argc, int *argv[]){
                 mysql_query(connexion, "insert into borrowings(adherent_number, book_number, out_date, return_date, effective_return_date) values(1, 2, '2020-04-05', '2020-04-12', '2020-04-11')") ;
                 mysql_query(connexion, "insert into borrowings(adherent_number, book_number, out_date, return_date) values(3, 4, '2022-01-02', '2022-01-17')") ;
                 mysql_query(connexion, "insert into borrowings(adherent_number, book_number, out_date, return_date) values(4, 3, '2022-03-01', '2022-03-15')") ;
-            }else{
-                printf("\n erreur insertion borrowings \n");
             }
+            // else{
+            //     printf("\n erreur insertion borrowings \n");
+            // }
         }
 
 

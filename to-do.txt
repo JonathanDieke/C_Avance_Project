@@ -3,8 +3,8 @@
 - retardataires (garder les 2) : ceux qui n'ont pas encore déposé et dont la date de retour est dépassée ou eux et en plus ceux qui ont déposé mais après la date de retour ? (ok)
 - fonctions retardataires et livres empruntés (ok)
 - faire l'insertion des données factices lorsque les tables sont vides (ok)
-- donnée introuvable
-- créer une fonction recherche / pour les retardataires à partir des noms des ahdérents ou des livres
+- donnée introuvable (ok)
+- créer une fonction recherche / pour les retardataires à partir des noms des ahdérents ou des livres (ok)
 - trouver un moyen d'arreter une action (d'ajout, d'édition, de suppression...) sans arrêter le programme de force (Ctrl+c)
 
 

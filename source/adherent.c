@@ -15,7 +15,8 @@ void showMenuAdherent(){
         puts("3- AFFICHER UN ADHERENT");
         puts("4- MODIFIER LES INFORMATIONS D'UN ADHERENT"); 
         puts("5- SUPPRIMER UN ADHERENT");
-        puts("6- Revenir en arrière");
+        puts("6- Rechercher un adhérent");
+        puts("7- Revenir en arrière");
         printf("\nCHOISIR UNE OPTION : ");
         
         scanf("%d", &choice);
@@ -44,6 +45,10 @@ void showMenuAdherent(){
                 break;    
             case 6:
                 system("clear");
+                searchAdherent();
+                break;   
+            case 7:
+                system("clear");
                 showMainMenu();
                 break;    
             default:
@@ -52,7 +57,7 @@ void showMenuAdherent(){
                 break;
         }
     
-    }while(choice < 1 || choice > 6) ;
+    }while(choice < 1 || choice > 7) ;
 }
 
 void addAdherent(){    
@@ -86,7 +91,7 @@ void addAdherent(){
 
 void showAdherents(){
 
-    char query[256];
+    char query[128];
     sprintf(query, "select number, name, lname, address, birthdate from %s", ADHERENT_TABLE_NAME);
 
     if(mysql_query(connexion, query) == 0){
@@ -228,6 +233,46 @@ void deleteAdherent(){
         contactAdmin();
     }
     
+    showMenuAdherent();
+}
+
+void searchAdherent(){
+    printf("\nEntrez le critère de recherche : ");
+    getchar();
+    char* searchPattern = lire(30);
+
+    char query[256];
+    sprintf(query, "select number, name, lname, address, birthdate from %s where name like '%s%s%s'  or lname like '%s%s%s' or address like '%s%s%s' or birthdate like '%s%s%s'", ADHERENT_TABLE_NAME, "%", searchPattern, "%", "%", searchPattern, "%", "%", searchPattern, "%", "%", searchPattern, "%");
+
+    if(mysql_query(connexion, query) == 0){
+        MYSQL_RES* results = mysql_store_result(connexion);
+
+        if(results != NULL && mysql_num_rows(results) > 0){
+
+            MYSQL_ROW row ;
+            MYSQL_FIELD* fields ;
+
+            puts("\nListe exhaustive des ahérents : \n ");
+            puts(" -------------------------------------------------------------------------");
+            puts("|\t Id |\t Nom |\t Prénom |\t Adresse |\t Date de naissance |");
+            puts(" -------------------------------------------------------------------------");  
+
+            while( (row = mysql_fetch_row(results)) != NULL ) { 
+                // printf("|\t\t %s |\t\t %s |\t\t\t %s |\t\t\t %s |\t\t %s |\n", row[0],row[1],row[2],row[3],row[4]);
+                for(int i = 0; i < 5; i++){
+                    printf("\t%s |", row[i]);
+                } 
+                puts("");
+            }
+
+        }else{
+            NoDataAvailabe();
+        }
+        doPause();
+        system("clear");
+    }else{ 
+        contactAdmin();
+    }
     showMenuAdherent();
 }
 

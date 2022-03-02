@@ -114,4 +114,3 @@ char* getCurrentDateTime(){
 
     return current_datetime ;
 }
-

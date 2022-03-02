@@ -1,3 +1,6 @@
+# clean : biblio
+# 	clear
+
 biblio : global.o adherent.o book.o borrowing.o main.o
 	gcc main.o adherent.o global.o book.o borrowing.o -o biblio -lmysqlclient
 	rm *.o 

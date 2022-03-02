@@ -10,6 +10,7 @@ void showAdherent();
 void editAdherent();
 void deleteAdherent();
 void latecomersAdherent();
+void searchAdherent();
 
 int _getAdherentNumber(char* message);
 
