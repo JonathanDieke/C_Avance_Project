@@ -1,18 +1,39 @@
 #include <mysql/mysql.h>
 #include <stdio.h>
-#include "../headers/global.h"
+#include <time.h>
 #include "../headers/adherent.h"
 #include "../headers/book.h"
+#include "../headers/borrowing.h"
+#include "../headers/global.h"  
 
 MYSQL *connexion = NULL; 
+
+char* BOOK_TABLE_NAME = "books" ;
+char* ADHERENT_TABLE_NAME = "adherents";
+char* AUTHOR_TABLE_NAME = "authors";
+char* BORROWING_TABLE_NAME = "borrowings";
 
 void initializeConnexion(){
     connexion = mysql_init(0);
 }
 
+char *lire(int size){
+    int i = 0;
+
+    char* text = (char*) malloc(sizeof(char)*size);
+
+    while(i<size){
+        scanf("%c", &text[i]);
+        if(text[i] == '\n') break ;
+        else i++ ;
+    }
+    text[i] = '\0';
+    return text ;
+}
+
 void showMainMenu(){
 
-    int choice = 0 ; 
+    int choice = 0 ;  
 
     do{
         puts("\t\t BIENVENUE !!! ");  
@@ -35,7 +56,8 @@ void showMainMenu(){
                 showMenuBook();
                 break;
             case 3:
-                // inserer le module 
+                system("clear");
+                showMenuBorrowing();
                 break;
             case 4:
                 system("clear");
@@ -49,4 +71,46 @@ void showMainMenu(){
         }
     } while (choice < 1 || choice > 4);
     
+}
+
+char* getCurrentDate(){
+    time_t t_t = time(NULL);
+    struct tm now = *localtime(&t_t) ;
+    char* current_date = (char*) malloc(sizeof(char)*15);
+
+    sprintf(current_date, "%d-%d-%d", (now.tm_year+1900), (now.tm_mon+1), now.tm_mday);
+
+    return current_date ;
+}
+
+void doPause(){
+    getchar();
+    printf("\n\nAppuyer sur une touche pour continuer ...\n");
+    getchar();
+}
+
+void failRequest_Retry(){
+    puts("\n\t--- Echec de la requête, veuillez, réessayer ! --- \n");
+}
+
+void impossibleRequestTreatment(){
+    puts("\n\t--- Impossible de traiter la requête ! --- \n");
+}
+
+void contactAdmin(){
+    puts("\n\t--- Echec, veuillez contacter l'administrateur ! ---\n");
+}
+
+void NoDataAvailabe(){
+    puts("\n\tAucune donnée disponible ! \n");
+}
+
+char* getCurrentDateTime(){
+    time_t t_t = time(NULL);
+    struct tm now = *localtime(&t_t) ;
+    char* current_datetime = (char*) malloc(sizeof(char)*25);
+
+    sprintf(current_datetime, "%d-%d-%d %d:%d:%d", (now.tm_year+1900), (now.tm_mon+1), now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec);
+
+    return current_datetime ;
 }
