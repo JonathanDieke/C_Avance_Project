@@ -5,6 +5,7 @@
 #include "../headers/book.h"
 #include "../headers/borrowing.h"
 #include "../headers/global.h"  
+#include "../headers/stats.h"
 
 MYSQL *connexion = NULL; 
 
@@ -41,7 +42,8 @@ void showMainMenu(){
         puts("1- ADHERENTS ");
         puts("2- LIVRES "); 
         puts("3- EMPRUNTS ");
-        puts("4- Quitter ");
+        puts("4- Statistiques ");
+        puts("5- Quitter ");
 
         printf("CHOISIR UNE OPTION : "); 
         scanf("%d", &choice);
@@ -61,12 +63,16 @@ void showMainMenu(){
                 break;
             case 4:
                 system("clear");
+                showMenuStats();
+                break;  
+            case 5:
+                system("clear");
                 puts("Bye ! ");
                 exit(0);
                 break;            
             default:
                 system("clear");
-                puts("Veuillez faire un choix entre 1 ET 3\n");
+                puts("Veuillez faire un choix entre 1 ET 5\n");
                 break;
         }
     } while (choice < 1 || choice > 4);

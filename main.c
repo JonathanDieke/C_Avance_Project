@@ -2,17 +2,23 @@
 #include <string.h>
 #include <time.h>
 #include <mysql/mysql.h>
-// #include <Rmath.h>
 #include "./headers/global.h"
 
 
 int main(int argc, int *argv[]){
+
+    double res[10];
+    res[0] = 10;
+    res[1] = 14;                
+    // ma_norm(10, res);
+    // printf("\n ceil : %d \n", ceilling(2.4));
     
     char 
         host[15] = "localhost", 
         user[15] = "legerant", 
         password [15]= "Tarzan225", 
         database_name[15] = "biblio";
+    
  
     initializeConnexion();
   
