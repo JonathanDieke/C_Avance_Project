@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/share/R/include/**", 
+                "/usr/share/R/**", 
                 "/usr/lib/R/lib"
             ],
             "defines": [],

@@ -1,11 +1,11 @@
-#include <mysql/mysql.h>
+// #include <mysql/mysql.h>
 #include <stdio.h>
 #include <time.h>
 #include "../headers/adherent.h"
 #include "../headers/book.h"
 #include "../headers/borrowing.h"
-#include "../headers/global.h"  
 #include "../headers/stats.h"
+#include "../headers/global.h"  
 
 MYSQL *connexion = NULL; 
 

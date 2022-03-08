@@ -4,8 +4,12 @@
 
 void showMenuStats();
 
-void borrowedThisMonth() ;
-
 void ma_norm() ;
+
+void R_Mean() ;
+
+void source(const char *name);
+
+void R_add1(int alen, int a[]) ;
 
 #endif

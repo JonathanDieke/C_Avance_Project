@@ -1,7 +1,7 @@
 #define MATHLIB_STANDALONE
 #include <stdio.h>
 #include <R.h>
-#include <Rmath.h>
+// #include <Rmath.h>
 #include <Rinternals.h>
 #include <Rembedded.h>
 #include "../headers/global.h"
@@ -23,15 +23,12 @@ void showMenuStats(){
         switch (choice){
             case 1 :
                 system("clear");  
-                ma_norm();
-                system("clear");
+                ma_norm(); 
                 showMenuStats();
                 break;  
             case 2:
                 system("clear");
-                puts("\nFonctionnalité en cours de développement...\n");
-                doPause();
-                system("clear");
+                R_Mean();
                 showMenuStats();
                 break;
             case 3:
@@ -44,16 +41,6 @@ void showMenuStats(){
                 break;
         }
     } while (choice < 1 || choice > 3);
-}
-
-void borrowedThisMonth(){
-    // char currentDate[15] = getCurrentDate();
-
-    // char query[256];
-
-    // sprintf(query, "select count(*) from %s where out_date", BORROWING_TABLE_NAME);
-
-    // puts("Le nombre de livres empruntés ce mois est de : %d", numberBorrowed);
 }
 
 void ma_norm() {  
@@ -77,4 +64,48 @@ void ma_norm() {
     }
 
     doPause();
+    system("clear");
+}
+
+void R_Mean(){
+   
+    // int  mean = meanBorrowedBook("legerant", "Tarzan225", "biblio", "localhost");
+
+    // int r_argc = 2;
+    // char *r_argv[] = { "R", "--silent" };
+    // Rf_initEmbeddedR(r_argc, r_argv);
+
+    source("R_functions.R"); 
+    SEXP meanBorrowedBook;
+    PROTECT(meanBorrowedBook = lang2(install("meanBorrowedBook"), mkString("NULL")));
+ 
+    int evalError;
+    SEXP res = R_tryEval(meanBorrowedBook, R_GlobalEnv, &evalError);
+
+    if (!evalError){
+        double *result = REAL(res);
+        printf("\nLe nombre moyen d'emprunts par mois est de : %f", *result);
+    }
+    else{
+        printf("\nUne erreur s'est produite durant l'appel de la fonction R\n");
+    }
+    
+    UNPROTECT(2);
+    
+
+    // puts("\nEn cours de développement.. \n");
+
+    doPause();
+
+    system("clear");
+}
+
+
+void source(const char *name)
+{
+    SEXP e;
+
+    PROTECT(e = lang2(install("source"), mkString(name)));
+    R_tryEval(e, R_GlobalEnv, NULL);
+    UNPROTECT(1);
 }

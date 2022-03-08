@@ -8,7 +8,8 @@
         "random": "c",
         "stats.h": "c",
         "r.h": "c",
-        "arith.h": "c"
+        "arith.h": "c",
+        "string.h": "c"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
