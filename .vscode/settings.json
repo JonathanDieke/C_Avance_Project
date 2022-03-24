@@ -4,6 +4,12 @@
         "global.h": "c",
         "mysql.h": "c",
         "book.h": "c",
-        "borrowing.h": "c"
-    }
+        "borrowing.h": "c",
+        "random": "c",
+        "stats.h": "c",
+        "r.h": "c",
+        "arith.h": "c",
+        "string.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
 }
